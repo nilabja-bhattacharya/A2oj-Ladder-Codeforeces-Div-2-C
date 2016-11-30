@@ -43,34 +43,38 @@ ll n;
 ll cnt=0;
 void toLocation(ll toX,ll toY){
 	if(toX>x){
-			cout<<1<<" "<<abs(toX-x)<<" "<<"R"<<endl;
+		printf("1 %d R\n",abs(toX-x));
+			//cout<<1<<" "<<abs(toX-x)<<" "<<"R"<<endl;
 	}
 	if(x>toX){
-			cout<<1<<" "<<abs(toX-x)<<" "<<"L"<<endl;
+		printf("1 %d L\n",abs(toX-x));
+		//	cout<<1<<" "<<abs(toX-x)<<" "<<"L"<<endl;
 	}
 	if(toY>y){
-			cout<<1<<" "<<abs(toY-y)<<" "<<"U"<<endl;
+		printf("1 %d U\n",abs(toY-y));
+		//	cout<<1<<" "<<abs(toY-y)<<" "<<"U"<<endl;
 	}
 	if(toY<y){
-			cout<<1<<" "<<abs(toY-y)<<" "<<"D"<<endl;
+		printf("1 %d D\n",abs(toY-y));
+		//	cout<<1<<" "<<abs(toY-y)<<" "<<"D"<<endl;
 	}
 	x=toX;
 	y=toY;
 }
 
 void pickBomb(){
-		cout<<2<<endl;
+		printf("2\n");
 }
 void diffuse(){
-		cout<<3<<endl;
+		printf("3\n");
 }
-//gvgvgv
+
 int main() {
      ios_base::sync_with_stdio(false);
      cin.tie(NULL);
-	cin>>n;
+	scanf("%lld",&n);
 	for(ll i=1;i<=n;i++){
-		cin>>P[i].x>>P[i].y;
+		scanf("%lld %lld",&P[i].x,&P[i].y);
 		cnt+=2;
 		if(P[i].x!=0) cnt+=2;
 		if(P[i].y!=0) cnt+=2;
