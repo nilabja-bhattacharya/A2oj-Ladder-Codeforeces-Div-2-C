@@ -29,102 +29,81 @@ typedef set<st> ss;
 typedef pair<int,int> pii;
 typedef vector<pii> vpii;
 typedef vector<lli> vlli;
-struct dir{
-	ll k;
-	ll j;
-	char ch;
-};
-struct point
-{
-	long long first, second;
-	bool operator <(point that)const
-	{
-		return first*first+second*second < that.first*that.first + that.second*that.second;
+struct point{
+	ll x,y;
+	bool operator<(point that)const{
+		return x*x+y*y<that.x*that.x+that.y*that.y;
 	}
-}v[100001];
+}P[MAX];
+bool countMode=true;
+int x=0,y=0;
+int n;
+int cnt=0;
+void toLocation(int toX,int toY){
+	if(toX>x){
+		if(countMode)
+			cnt++;
+		else
+			cout<<1<<" "<<abs(toX-x)<<" "<<"R"<<endl;
+	}
+	if(x>toX){
+		if(countMode)
+			cnt++;
+		else
+			cout<<1<<" "<<abs(toX-x)<<" "<<"L"<<endl;
+	}
+	if(toY>y){
+		if(countMode)
+			cnt++;
+		else
+			cout<<1<<" "<<abs(toY-y)<<" "<<"U"<<endl;
+	}
+	if(toY<y){
+		if(countMode)
+			cnt++;
+		else
+			cout<<1<<" "<<abs(toY-y)<<" "<<"D"<<endl;
+	}
+	x=toX;
+	y=toY;
+}
+
+void pickBomb(){
+	if(countMode)
+		cnt++;
+	else
+		cout<<2<<endl;
+}
+void diffuse(){
+	if(countMode)
+		cnt++;
+	else
+		cout<<3<<endl;
+}
+void solve(){
+	cin>>n;
+	for(int i=1;i<=n;i++)
+		cin>>P[i].x>>P[i].y;
+	sort(P+1,P+n+1);
+	for(int i=1;i<=n;i++){
+		toLocation(P[i].x,P[i].y);
+		pickBomb();
+		toLocation(0,0);
+		diffuse();
+	}
+	cout<<cnt<<endl;
+	countMode=false;
+	for(int i=1;i<=n;i++){
+		toLocation(P[i].x,P[i].y);
+		pickBomb();
+		toLocation(0,0);
+		diffuse();
+	}
+}
 int main() {
      ios_base::sync_with_stdio(false);
      cin.tie(NULL);
-	int n;
-	cin>>n;
-	//vpii v(n);
-	for(int i=0;i<n;i++)
-		cin>>v[i].first>>v[i].second;
-	vector < dir > vdir;
-	sort(v,v+n);
-	for(int i=0;i<n;i++){
-		if(v[i].first>0 && v[i].second>0){
-			vdir.push_back({1,v[i].first,'R'});
-			vdir.push_back({1,v[i].second,'U'});
-			vdir.push_back({2,0,0});
-			vdir.push_back({1,v[i].second,'D'});
-			vdir.push_back({1,v[i].first,'L'});
-			vdir.push_back({3,0,0});
-		}
-		else if(v[i].first>0 && v[i].second<0){
-			vdir.push_back({1,v[i].first,'R'});
-			vdir.push_back({1,abs(v[i].second),'D'});
-			vdir.push_back({2,0,0});
-			vdir.push_back({1,abs(v[i].second),'U'});
-			vdir.push_back({1,v[i].first,'L'});
-			vdir.push_back({3,0,0});
-		}
-		else if(v[i].first>0 && v[i].second==0){
-			vdir.push_back({1,v[i].first,'R'});
-		//	vdir.push_back({1,v[i].second,'U'});
-			vdir.push_back({2,0,0});
-		//	vdir.push_back({1,v[i].second,'D'});
-			vdir.push_back({1,v[i].first,'L'});
-			vdir.push_back({3,0,0});
-		}
-		else if(v[i].first<0 && v[i].second==0){
-			vdir.push_back({1,abs(v[i].first),'L'});
-		//	vdir.push_back({1,v[i].second,'U'});
-			vdir.push_back({2,0,0});
-		//	vdir.push_back({1,v[i].second,'D'});
-			vdir.push_back({1,abs(v[i].first),'R'});
-			vdir.push_back({3,0,0});
-		}
-		else if(v[i].first<0 && v[i].second<0){
-			vdir.push_back({1,abs(v[i].first),'L'});
-			vdir.push_back({1,abs(v[i].second),'D'});
-			vdir.push_back({2,0,0});
-			vdir.push_back({1,abs(v[i].second),'U'});
-			vdir.push_back({1,abs(v[i].first),'R'});
-			vdir.push_back({3,0,0});
-		}
-		else if(v[i].first<0 && v[i].second>0){
-			vdir.push_back({1,abs(v[i].first),'L'});
-			vdir.push_back({1,abs(v[i].second),'D'});
-			vdir.push_back({2,0,0});
-			vdir.push_back({1,abs(v[i].second),'U'});
-			vdir.push_back({1,abs(v[i].first),'R'});
-			vdir.push_back({3,0,0});
-		}
-		else if(v[i].first==0 && v[i].second>0){
-		//	vdir.push_back({1,v[i].first,'R'});
-			vdir.push_back({1,v[i].second,'U'});
-			vdir.push_back({2,0,0});
-			vdir.push_back({1,v[i].second,'D'});
-		//	vdir.push_back({1,v[i].first,'L'});
-			vdir.push_back({3,0,0});
-		}
-		else if(v[i].first==0 && v[i].second<0){
-		//	vdir.push_back({1,v[i].first,'R'});
-			vdir.push_back({1,abs(v[i].second),'D'});
-			vdir.push_back({2,0,0});
-			vdir.push_back({1,abs(v[i].second),'U'});
-		//	vdir.push_back({1,v[i].first,'L'});
-			vdir.push_back({3,0,0});
-		}
-	}
-	cout<<vdir.size()<<endl;
-	for(int i=0;i<vdir.size();i++){
-		if(vdir[i].k==1)
-			cout<<vdir[i].k<<" "<<vdir[i].j<<" "<<vdir[i].ch<<endl;
-		else
-			cout<<vdir[i].k<<endl;
-	}
+	solve();
 	//cout<<"Execution time : "<<tick();
      return 0;
 }
