@@ -29,39 +29,29 @@ typedef set<st> ss;
 typedef pair<int,int> pii;
 typedef vector<pii> vpii;
 typedef vector<lli> vlli;
+
 struct point{
 	ll x,y;
 	bool operator<(point that)const{
 		return x*x+y*y<that.x*that.x+that.y*that.y;
 	}
-}P[MAX];
+}P[100011];
+
 bool countMode=true;
-int x=0,y=0;
-int n;
-int cnt=0;
-void toLocation(int toX,int toY){
+ll x=0,y=0;
+ll n;
+ll cnt=0;
+void toLocation(ll toX,ll toY){
 	if(toX>x){
-		if(countMode)
-			cnt++;
-		else
 			cout<<1<<" "<<abs(toX-x)<<" "<<"R"<<endl;
 	}
 	if(x>toX){
-		if(countMode)
-			cnt++;
-		else
 			cout<<1<<" "<<abs(toX-x)<<" "<<"L"<<endl;
 	}
 	if(toY>y){
-		if(countMode)
-			cnt++;
-		else
 			cout<<1<<" "<<abs(toY-y)<<" "<<"U"<<endl;
 	}
 	if(toY<y){
-		if(countMode)
-			cnt++;
-		else
 			cout<<1<<" "<<abs(toY-y)<<" "<<"D"<<endl;
 	}
 	x=toX;
@@ -69,41 +59,30 @@ void toLocation(int toX,int toY){
 }
 
 void pickBomb(){
-	if(countMode)
-		cnt++;
-	else
 		cout<<2<<endl;
 }
 void diffuse(){
-	if(countMode)
-		cnt++;
-	else
 		cout<<3<<endl;
 }
-void solve(){
-	cin>>n;
-	for(int i=1;i<=n;i++)
-		cin>>P[i].x>>P[i].y;
-	sort(P+1,P+n+1);
-	for(int i=1;i<=n;i++){
-		toLocation(P[i].x,P[i].y);
-		pickBomb();
-		toLocation(0,0);
-		diffuse();
-	}
-	cout<<cnt<<endl;
-	countMode=false;
-	for(int i=1;i<=n;i++){
-		toLocation(P[i].x,P[i].y);
-		pickBomb();
-		toLocation(0,0);
-		diffuse();
-	}
-}
+//gvgvgv
 int main() {
      ios_base::sync_with_stdio(false);
      cin.tie(NULL);
-	solve();
+	cin>>n;
+	for(ll i=1;i<=n;i++){
+		cin>>P[i].x>>P[i].y;
+		cnt+=2;
+		if(P[i].x!=0) cnt+=2;
+		if(P[i].y!=0) cnt+=2;
+	}
+	sort(P+1,P+n+1);
+	cout<<cnt<<endl;
+	for(ll i=1;i<=n;i++){
+		toLocation(P[i].x,P[i].y);
+		pickBomb();
+		toLocation(0,0);
+		diffuse();
+	}
 	//cout<<"Execution time : "<<tick();
      return 0;
 }
